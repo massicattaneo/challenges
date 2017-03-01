@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="js/Thunk.js"></script>
+    <script src="js/PromiseThunk.js"></script>
+    <script src='../bower_components/corejs/dist/corejs.js'></script>
+    <title>Thunk</title>
+</head>
+<body>
+    <script>
+        [Thunk, PromiseThunk].forEach(function (O) {
+            var obj = O(function (resolve, x, y) {
+                setTimeout(function () {resolve(x + y);}, 1000);
+            }, 10,15);
+            obj(function (sum) {console.log(sum);});
+        });
+    </script>
+</body>
+</html>

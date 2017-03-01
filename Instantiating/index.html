@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instances, Objects & scopes</title>
+</head>
+<body>
+
+<script>
+    /** COMMON SCOPE TO ALL INSTANCES **/
+    var SumMachine = (function () {
+        function SumMachine() {
+            /** PRIVATE SCOPE TO INSTANCE **/
+            var obj = this; //DIFFERENCE FROM ACTUAL CODE
+            var privateTotal = 0;
+            obj.total = 0;
+            /** A NEW FUNCTION IS CREATED EACH OBJECT INSTANTIATION. SCOPE OF THE FUNCTION COULD BE ALSO ANOTHER OBJECT*/
+            obj.sum = function (value) {
+                privateTotal += value;
+                obj.total += value;
+            };
+            obj.privateTotal = function () {
+                return privateTotal;
+            };
+        }
+
+        /** SAME FUNCTION IS USED FOR EACH OBJECT INSTANTIATION. SCOPE OF THE FUNCTION COULD NOT BE ANOTHER OBJECT **/
+        SumMachine.prototype.result = function () {
+            /** cannot read privateTotal */
+            return this.total;
+        };
+
+        return SumMachine;
+    })();
+
+
+    var calc = new SumMachine();
+    var calc1 = new SumMachine();
+    calc.sum.call({}, 10); //WORKS!!
+    calc.sum(10);
+    calc1.sum(10);
+
+    console.log('CORRECT: ' + calc.result());
+    console.log('WRONG: ' + calc.result.call({}));
+
+    console.log('SUM FUNCTIONS ARE POINTING TO SAME FUNCTION', calc1.sum === calc.sum);
+    console.log('PRIVATETOTAL FUNCTIONS ARE POINTING TO SAME FUNCTION', calc1.privateTotal === calc.privateTotal);
+    console.log('RESULT FUNCTIONS ARE POINTING TO SAME FUNCTION', calc1.result === calc.result);
+
+    console.log(calc);
+    console.log(calc1);
+
+    console.log();
+</script>
+
+</body>
+</html>

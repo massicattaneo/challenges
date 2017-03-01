@@ -1,0 +1,19 @@
+{
+  "name": "challenges",
+  "description": "HTML5/CSS3 slot games",
+  "main": "client/index.html",
+  "authors": [
+    "Max Cattaneo <massi.cattaneo.it@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/massicattaneo/challenges",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "corejs": "https://github.com/massicattaneo/corejs.git#master",
+    "components-font-awesome": "^4.6.3"
+  }
+}

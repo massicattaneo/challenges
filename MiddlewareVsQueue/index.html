@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src='../sizeOf/sizeOf.js'></script>
+    <script src='../bower_components/corejs/dist/corejs.js'></script>
+    <script src="js/Middleware.js"></script>
+    <script src="js/Queue.js"></script>
+    <title>MIDDLEWARE (call stack) vs QUEUE (array)</title>
+</head>
+<body>
+
+<script>
+    cjs.Component.register({
+        name: 'summary',
+        template: '<div style="font-weight: {{weight}};"><span>{{name}}</span> <span>{{size}}</span> <span>{{lines}}</span> {{result}}</div>',
+        style: '.& {border: 1px dotted black; padding: 10px; margin: 10px} .& span {display: inline-block; width: 150px}'
+    })
+</script>
+
+<script>
+
+    cjs.Component
+            .create('summary', {config: {weight: 'bold', size: 'SIZE', lines: 'LINES OF CODE', name: 'NAME', result: 'PLAIN OUTPUT'}})
+            .createIn(document.body);
+    [Queue, Middleware].forEach(function (O) {
+        var obj = new O();
+        obj.run(function addCard(next) {setTimeout(next, 1000); this.card = 'Ace of Spade'});
+        obj.stop('addCard');
+        obj.run(function updateBalance(next) {next()});
+        obj.go(function finish() {
+            cjs.Component
+                    .create('summary', {config: {size: sizeOf(this) + 'bytes', lines: O.lines, name: O.name, result: JSON.stringify(this)}})
+                    .createIn(document.body);
+            console.log(this);
+        });
+    });
+</script>
+
+</body>
+</html>

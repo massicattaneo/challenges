@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redux</title>
+    <script src="js/Store.js"></script>
+    <script src="js/StateMachine.js"></script>
+    <script src="js/counterReducer.js"></script>
+    <script src="js/states.js"></script>
+    <style>
+        button[disabled] {
+            opacity: 0.4
+        }
+    </style>
+</head>
+<body>
+
+<div id="redux">
+    <button id="redux-decrease">-</button>
+    <span id="redux-counter"></span>
+    <button id="redux-increase">+</button>
+</div>
+<br/>
+<div id="oop">
+    <button id="stateMachine-decrease">-</button>
+    <span id="stateMachine-counter"></span>
+    <button id="stateMachine-increase">+</button>
+</div>
+
+<script>
+    /** REDUX */
+    var store = new Store(counterReducer);
+    document.getElementById('redux-increase').addEventListener('click', function () {
+        store.dispatch({type: 'INCREASE'});
+    });
+    document.getElementById('redux-decrease').addEventListener('click', function () {
+        store.dispatch({type: 'DECREASE'});
+    });
+    store.onChange('counter', function (prevState, state) {
+        document.getElementById('redux-counter').innerHTML = state.counter;
+    });
+    store.onChange('decrease', function (prevState, state) {
+        document.getElementById('redux-decrease')[!state.decrease ? 'setAttribute' : 'removeAttribute']('disabled', 'disabled');
+    });
+    store.notify();
+
+    /** STATE MACHINE */
+    var counter = new StateMachine();
+    document.getElementById('stateMachine-increase').addEventListener('click', function () {
+        counter.state(states.increase);
+    });
+    document.getElementById('stateMachine-decrease').addEventListener('click', function () {
+        counter.state(states.decrease);
+    });
+    counter.onChange('counter', function (oldState, state) {
+        document.getElementById('stateMachine-counter').innerHTML = state.counter;
+    });
+    counter.onChange('decrease', function (oldState, state) {
+        document.getElementById('stateMachine-decrease')[!state.decrease ? 'setAttribute' : 'removeAttribute']('disabled', 'disabled');
+    });
+    counter.state(states.init);
+
+
+</script>
+
+</body>
+</html>
