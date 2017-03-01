@@ -11,7 +11,7 @@
 var states = new States([
     {
         name: 'increase',
-        before: function (data) {
+        beforeChange: function (data) {
             data.counter++;
             data.decrease = true;
             return data;
@@ -19,7 +19,7 @@ var states = new States([
     },
     {
         name: 'decrease',
-        before: function (data) {
+        beforeChange: function (data) {
             data.counter--;
             data.decrease = data.counter > 0;
             return data;
@@ -27,7 +27,7 @@ var states = new States([
     },
     {
         name: 'init',
-        before: function () {
+        beforeChange: function () {
             return {
                 counter: 0,
                 increase: true,

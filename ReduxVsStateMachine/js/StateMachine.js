@@ -17,7 +17,7 @@ function StateMachine() {
     this.state = function (newState) {
         activeStates.push(newState);
         oldData = data;
-        data = newState.before(data);
+        data = newState.beforeChange(data);
         subscribers.forEach(function(subscriber) {
             if (oldData[subscriber.prop] !== data[subscriber.prop]) {
                 subscriber.fn(oldData, data);
@@ -38,11 +38,7 @@ function States(array) {
     var self = this;
     array.forEach(function (o) {
         self[o.name] = {};
-        Object.keys(o).forEach(function (k) {
-            self[o.name][k] = function (data) {
-                return o[k](new Data(data))
-            };
-        });
         self[o.name].name = o.name;
+        self[o.name].beforeChange = function (data) {return o.beforeChange(new Data(data))};
     });
 }
