@@ -10,25 +10,27 @@
  */
 var states = new States([
     {
-        name: 'increase',
-        beforeChange: function (data) {
-            data.counter++;
-            return data;
-        }
-    },
-    {
-        name: 'decrease',
-        beforeChange: function (data) {
-            data.counter--;
-            return data;
-        }
-    },
-    {
         name: 'init',
         beforeChange: function () {
             return {
-                counter: 0
+                x: 0,
+                y: 180,
+                jumpForce: 0
             };
+        },
+        afterChange: function (data) {
+            return data;
+        }
+    },
+    {
+        name: 'jump',
+        beforeChange: function (data) {
+            data.jumpForce = 5;
+            return data;
+        },
+        afterChange: function (data) {
+            data.jumpForce = data.jumpForce - 1;
+            return data;
         }
     }
 ]);

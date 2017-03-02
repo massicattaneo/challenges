@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redux</title>
+    <script src="js/StateMachine.js"></script>
+    <script src="js/states.js"></script>
+</head>
+<body>
+<style>
+
+    #game {position: relative; margin: 50px; width: 500px; height: 200px; border: 1px solid black;}
+    #ground {position: absolute; bottom: 0; height: 20px; background-color: firebrick; width: 100%}
+    #character {position: absolute; height: 50px; width: 20px; background-color: pink;}
+    #character:before {position: absolute; height: 4px; width: 4px; background-color: black; content: ""; top: 4px; left: 4px;}
+    #character:after {position: absolute; height: 4px; width: 4px; background-color: black; content: ""; top: 4px; right: 4px;}
+    .mouth {position: absolute; height: 2px; background-color: black; content: ""; top: 16px; left: 4px;}
+    .mouth.normal {width: 12px;}
+    .mouth.happy {width: 8px; left: 6px}
+    .mouth.happy:before {position: absolute; height: 2px; width: 2px; background-color: black; content: ""; top: -2px; left: -2px;}
+    .mouth.happy:after {position: absolute; height: 2px; width: 2px; background-color: black; content: ""; top: -2px; right: -2px;}
+    .mouth.sad {width: 8px; left: 6px}
+    .mouth.sad:before {position: absolute; height: 2px; width: 2px; background-color: black; content: ""; top: 2px; left: -2px;}
+    .mouth.sad:after {position: absolute; height: 2px; width: 2px; background-color: black; content: ""; top: 2px; right: -2px;}
+
+</style>
+<div id="game">
+    <div id="character">
+        <div class="mouth normal"></div>
+    </div>
+    <div id="ground"></div>
+</div>
+
+<script>
+    document.addEventListener('keyup', function (e) {
+        switch (e.code) {
+            case 'ArrowUp':
+                character.state(states.jump);
+        }
+    });
+
+
+    function changeX(state, oldState) {return state.x !== oldState.x}
+    function changeY(state, oldState) {return state.y !== oldState.y}
+    var character = new StateMachine();
+    character.on(changeX, function (state) {
+        document.getElementById('character').style.left = state.x + 'px';
+    });
+    character.on(changeY, function (state) {
+        document.getElementById('character').style.top = (state.y - 50) + 'px';
+    });
+    character.on(function (state, oldState) {
+        return state.jumpForce !== 0;
+    }, function (state) {
+        document.getElementById('character').style.top = (state.y - 50) - (1 * state.jumpForce) + 'px';
+    });
+    character.state(states.init);
+
+
+</script>
+
+</body>
+</html>

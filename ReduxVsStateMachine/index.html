@@ -52,11 +52,36 @@
     document.getElementById('stateMachine-decrease').addEventListener('click', function () {
         counter.state(states.decrease);
     });
-    counter.onChange('counter', function (oldState, state) {
+
+    function counterChange(oldState, state) {
+        return oldState.counter !== state.counter
+    }
+    function counterZero(oldState, state) {
+        return counterChange(oldState, state) && state.counter === 0;
+    }
+    function counterNotZero(oldState, state) {
+        return !counterZero(oldState, state);
+    }
+
+    /**
+     Who? --> counter (component)
+     When? --> condition (model)
+     What? --> action (component controller)
+     Where? («Dove?») --> (component view)
+     **/
+
+    /**
+     * The counter(who) when it's value is zero(condition) should disable (action) the decrease button (where) because value cannot be under 0;
+     * */
+
+    counter.on(counterChange, function (oldState, state) {
         document.getElementById('stateMachine-counter').innerHTML = state.counter;
     });
-    counter.onChange('decrease', function (oldState, state) {
-        document.getElementById('stateMachine-decrease')[!state.decrease ? 'setAttribute' : 'removeAttribute']('disabled', 'disabled');
+    counter.on(counterZero, function () {
+        document.getElementById('stateMachine-decrease').setAttribute('disabled', 'disabled');
+    });
+    counter.on(counterNotZero, function () {
+        document.getElementById('stateMachine-decrease').removeAttribute('disabled');
     });
     counter.state(states.init);
 

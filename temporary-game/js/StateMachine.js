@@ -19,10 +19,12 @@ function StateMachine() {
         oldData = data;
         data = newState.beforeChange(data);
         subscribers.forEach(function(subscriber) {
-            if (subscriber.condition(oldData, data)) {
-                subscriber.fn(oldData, data);
+            if (subscriber.condition(data, oldData)) {
+                subscriber.fn(data, oldData);
             }
         }.bind(this));
+        data = newState.afterChange(data);
+        this.state(newState);
     };
     this.on = function(condition, fn) {
         subscribers.push({condition: condition, fn: fn});
@@ -40,5 +42,6 @@ function States(array) {
         self[o.name] = {};
         self[o.name].name = o.name;
         self[o.name].beforeChange = function (data) {return o.beforeChange(new Data(data))};
+        self[o.name].afterChange = function (data) {return o.afterChange(new Data(data))};
     });
 }

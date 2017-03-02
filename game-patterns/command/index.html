@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Command - game design pattern</title>
+    <script src="js/Actor.js"></script>
+    <script src="js/Commands.js"></script>
+    <script src="js/InputHandler.js"></script>
+</head>
+<body>
+<script>
+    var actor = new Actor();
+    var inputHandler = new InputHandler();
+    document.addEventListener('keydown', function (e) {
+        var command = inputHandler.handleInputStart(e.code);
+        if (command) {
+            command.execute(actor)
+        }
+    });
+
+    document.addEventListener('keyup', function (e) {
+        var command = inputHandler.handleInputEnd(e.code);
+        if (command) {
+            command.execute(actor)
+        }
+    });
+</script>
+</body>
+</html>
