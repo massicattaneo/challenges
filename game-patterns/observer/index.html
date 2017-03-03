@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Observer - game design pattern</title>
+</head>
+<body>
+
+    <script>
+        function Observer(onNotify) {
+            var obj = this;
+            obj.onNotify = onNotify || function () {}
+        }
+        function Achievements() {
+            return new Observer(function (entity, event) {
+                if (event === 'ENTITY_FELL' && entity.isHero()) {
+                    unlock('HERO ENTITY FELL')
+                }
+            });
+            function unlock(achivement) {
+                console.log('YOU UNLOCK THE ' + achivement + ' ACHIEVEMENT')
+            }
+        } //This is an observer
+        function Subject(params) {
+            var obj = this;
+            var observers = [];
+            obj.addObserver = function (observer) {
+                observers.push(observer);
+                return function removeObserver() {
+                    observers.splice(observers.indexOf(observer), 1)
+                }
+            };
+            obj.notify = function (event) {
+                observers.forEach(function (o) {o.onNotify(obj, event)})
+            };
+            obj.isHero = function () {return params.isHero;};
+        }
+
+        var achievements = new Achievements();
+        var hero = new Subject({isHero: true});
+
+        var removeAchievementObserver = hero.addObserver(achievements);
+        hero.notify('ENTITY_FELL');
+        removeAchievementObserver();
+        hero.notify('ENTITY_FELL');
+
+    </script>
+
+</body>
+</html>
