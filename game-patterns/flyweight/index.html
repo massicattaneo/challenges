@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flyweight - game design pattern</title>
+    <script src="../../bower_components/corejs/dist/corejs.js"></script>
+</head>
+<script src="js/Terrain.js"></script>
+<script src="js/World.js"></script>
+<body>
+
+<script>
+    var start = new Date().getTime();
+    var world = new World({
+        width: 100,
+        height: 80,
+        tileSize: 10
+    });
+    world.generateTerrain();
+    world.eachTile(function (tile, x, y) {
+        tile.draw(document.body, x, y);
+    });
+    console.log('tile/ms:', world.getArea() / (new Date().getTime() - start));
+</script>
+
+</body>
+</html>
