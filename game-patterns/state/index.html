@@ -6,7 +6,7 @@
 </head>
 <body>
     <script>
-        function HeroineState(handleInput, update) {
+        function HeroineState(handleInput, update, enter) {
             this.handleInput = handleInput || function () {};
             this.enter = enter || function () {};
             this.update = update || function () {};
@@ -16,6 +16,9 @@
                 if (input == 'ArrowDown') {
                     return HeroineState.ducking;
                 }
+            }, function () {
+
+            }, function (heroine) {
                 heroine.setGraphics('IMAGE_STAND');
             })
         }();
@@ -25,7 +28,6 @@
             return new HeroineState(function (heroine, input) {
                 chargeTime = 0;
                 if (input == 'ArrowDown') {
-                    heroine.setGraphics('IMAGE_DUCK');
                     return;
                 }
                 return HeroineState.standing;
@@ -35,13 +37,19 @@
                 {
                     heroine.superBomb();
                 }
+            }, function (heroine) {
+                heroine.setGraphics('IMAGE_DUCK');
             })
         }();
         function Heroine() {
             var obj = this;
             var state = HeroineState.standing;
             obj.handleInput = function(input) {
-                state = state.handleInput(obj, input) || state;
+                var newState = state.handleInput(obj, input);
+                if (newState) {
+                    state = newState;
+                    state.enter(obj);
+                }
             };
             obj.update = function(input) {
                 state.update(input);
@@ -54,8 +62,11 @@
             };
         }
         var hero = new Heroine();
-        document.addEventListener('keyup', function (e) {
+        document.addEventListener('keydown', function (e) {
             hero.handleInput(e.code);
+        });
+        document.addEventListener('keyup', function () {
+            hero.handleInput();
         });
 
     </script>
