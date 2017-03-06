@@ -3,53 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>State - game design pattern</title>
+    <script src="js/HeroineState.js"></script>
 </head>
 <body>
     <script>
-        function HeroineState(handleInput, update, enter) {
-            this.handleInput = handleInput || function () {};
-            this.enter = enter || function () {};
-            this.update = update || function () {};
-        }
-        HeroineState.standing = function DuckingState() {
-            return new HeroineState(function (heroine, input) {
-                if (input == 'ArrowDown') {
-                    return HeroineState.ducking;
-                }
-            }, function () {
 
-            }, function (heroine) {
-                heroine.setGraphics('IMAGE_STAND');
-            })
-        }();
-        HeroineState.ducking = function DuckingState() {
-            var chargeTime = 0;
-            var MAX_CHARGE = 1000;
-            return new HeroineState(function (heroine, input) {
-                chargeTime = 0;
-                if (input == 'ArrowDown') {
-                    return;
-                }
-                return HeroineState.standing;
-            }, function (heroine) {
-                chargeTime++;
-                if (chargeTime > MAX_CHARGE)
-                {
-                    heroine.superBomb();
-                }
-            }, function (heroine) {
-                heroine.setGraphics('IMAGE_DUCK');
-            })
-        }();
         function Heroine() {
             var obj = this;
-            var state = HeroineState.standing;
+            var state = HeroineState.standing; //state could be a stack of states (Pushdown automaton) (Ex. fire and return to previous state)
+            var equipment = HeroineState.standing; //two states ate the same time (stand and armed with a gun)
             obj.handleInput = function(input) {
                 var newState = state.handleInput(obj, input);
                 if (newState) {
                     state = newState;
                     state.enter(obj);
+                } else {
+                    state.update(obj);
                 }
+                equipment.handleInput(obj, input);
             };
             obj.update = function(input) {
                 state.update(input);
