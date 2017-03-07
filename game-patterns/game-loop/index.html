@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Loop - game design pattern</title>
+</head>
+<body>
+    <div id="bullet1" style="top: 10px; width: 50px; height: 20px; background-color: black; position: absolute;"></div>
+    <div id="bullet2" style="top: 50px; width: 50px; height: 20px; background-color: black; position: absolute;"></div>
+    <script>
+
+
+        (function () {
+            var speed = 1;
+            var left = 0;
+            var bullet = document.getElementById('bullet1');
+            var previous = new Date().getTime();
+            var lag = 0;
+
+            function processInput() {
+                /** USER INPUT */
+            }
+            function update() {
+                /** AI & PHYSICS */
+                left += speed;
+            }
+            function render(interpolation) {
+                /** RENDER ON SCREEN */
+                bullet.style.left = left + (speed*interpolation) + 'px';
+            }
+
+            (function runGame() {
+                var current = new Date().getTime();
+                var elapsed = current - previous;
+                var MS_PER_UPDATE = 1000/20; //50 fps
+                previous = current;
+                lag += elapsed;
+                while (lag >= MS_PER_UPDATE) {
+                    update();
+                    lag -= MS_PER_UPDATE;
+                }
+                render(lag / MS_PER_UPDATE);
+                setTimeout(runGame, 0);
+            })()
+        })();
+
+        (function () {
+            var MS_PER_UPDATE = 1000; // 1 fps
+            var speed = 20;
+            var left = 0;
+            var bullet = document.getElementById('bullet2');
+            var previous = new Date().getTime();
+            var lag = 0;
+
+            function processInput() {
+                /** USER INPUT */
+            }
+            function update() {
+                /** AI & PHYSICS */
+                left += speed;
+            }
+            function render(interpolation) {
+                /** RENDER ON SCREEN */
+                bullet.style.left = left + (speed * interpolation) + 'px';
+            }
+
+            (function runGame() {
+                var current = new Date().getTime();
+                var elapsed = current - previous;
+                previous = current;
+                lag += elapsed;
+                while (lag >= MS_PER_UPDATE) {
+                    update();
+                    console.log('here');
+                    lag -= MS_PER_UPDATE;
+                }
+                render(lag / MS_PER_UPDATE);
+                setTimeout(runGame, 0);
+            })()
+        })();
+
+    </script>
+</body>
+</html>
