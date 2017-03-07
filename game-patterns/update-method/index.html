@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update method - game design pattern</title>
+    <script src="js/entities.js"></script>
+    <script src="js/World.js"></script>
+</head>
+<body>
+    <div id="skeleton-1" style="top: 30px; width: 10px; height: 20px; background-color: black; position: absolute;"></div>
+    <div id="statue-1" style="left: 150px; top: 30px; width: 10px; height: 20px; background-color: black; position: absolute;"></div>
+    <script>
+
+        var world = new World();
+        world.addEntity(Skeleton(document.getElementById('skeleton-1')));
+        world.addEntity(Statue(100, document.getElementById('statue-1')));
+        world.gameLoop();
+
+    </script>
+
+</body>
+</html>
