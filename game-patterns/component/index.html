@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compoenent - game design pattern</title>
+    <script src="js/Components.js"></script>
+</head>
+<body>
+
+    <script>
+        function Bjorn(input_, physic_, graphic_) {
+            var obj = this;
+            obj.x_= 0;
+            obj.y_ = 0;
+            obj.velocity_ = 1;
+            obj.update = function (world, graphics) {
+                input_.update(obj);
+                physic_.update(obj, world);
+                graphic_.update(obj, graphics);
+            }
+        }
+
+        var world = {resolveCollision: function() {console.log('collision', arguments)}};
+        var graphics = {draw: function() {console.log('draw',arguments)}};
+
+        var bjorn = new Bjorn(new InputComponent(), new PhysicComponent(), new GraphicComponent());
+        bjorn.update(world, graphics);
+    </script>
+
+</body>
+</html>
