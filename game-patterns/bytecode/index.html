@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bytecode - game design pattern</title>
+    <script src="js/Instructions.js"></script>
+    <script src="js/VirtualMachine.js"></script>
+</head>
+<body>
+
+<script>
+    var vm = new VM();
+    vm.interpret([Instruction.LITERAL, 0]);
+
+    vm.interpret([Instruction.LITERAL, 0]);
+    vm.interpret([Instruction.GET_HEALTH]);
+
+    vm.interpret([Instruction.LITERAL, 0]);
+    vm.interpret([Instruction.GET_AGILITY]);
+
+    vm.interpret([Instruction.LITERAL, 0]);
+    vm.interpret([Instruction.GET_WISDOM]);
+
+    vm.interpret([Instruction.ADD]);
+
+    vm.interpret([Instruction.LITERAL, 2]);
+    vm.interpret([Instruction.DIVIDE]);
+
+    vm.interpret([Instruction.SET_HEALTH]);
+
+    vm.interpret([Instruction.LITERAL, null, Instruction.GET_HEALTH]);
+</script>
+
+</body>
+</html>
