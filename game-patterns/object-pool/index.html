@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Object Poll - design game pattern</title>
+    <script src="js/Particle.js"></script>
+    <script src="js/ParticlePoll.js"></script>
+</head>
+<body>
+
+<script>
+
+    var particlePool = new ParticlePoll(2);
+
+    particlePool.create(0,0,1,1,2);
+    particlePool.animate(); //will animate 1 particle
+
+    particlePool.create(0,0,1,1,2);
+    particlePool.animate(); //will animate 2 particles
+    particlePool.animate(); //will animate 1 particle
+
+    particlePool.animate(); //will animate nothing
+
+</script>
+
+</body>
+</html>
