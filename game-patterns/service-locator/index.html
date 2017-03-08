@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service locator - game design pattern</title>
+    <script src="js/Audio.js"></script>
+    <script src="js/Locator.js"></script>
+</head>
+<body>
+
+<script>
+    var services = new Locator();
+    services.provide({audio: ConsoleAudio()});
+    services.decorate({audio: AudioLogger});
+    var audio = services.getAudio();
+    audio.playSound(0, 1);
+
+</script>
+
+</body>
+</html>
