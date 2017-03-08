@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Locality - game design pattern</title>
+    <script src="js/Game.js"></script>
+</head>
+<body>
+
+<script>
+    /** case 1: */
+    var game = new Game();
+    game.addEntity(new GameEntity(new Component('ai', 0), new Component('physic', 0), new Component('render', 0)));
+    game.run();
+
+    /** case 2: */
+    var particleSystem = new ParticleSystem();
+    console.log("particleSystem instanceof Array", particleSystem instanceof Array); //true
+
+    particleSystem.push(new Component('particle', 0)); //not updated
+    particleSystem.activateParticle(particleSystem.push(new Component('particle', 1))-1); //activated so updated
+    particleSystem.update();
+</script>
+
+
+</body>
+</html>
