@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dirty Flag (Dirty Bit) - game design pattern</title>
+    <script src="js/Transform.js"></script>
+    <script src="js/GraphNode.js"></script>
+</head>
+<body>
+
+<script>
+
+    var scene = new GraphNode({name: 'scene'});
+    scene.push(new GraphNode({name: '1'}));
+    scene.push(new GraphNode({name: '2'}));
+
+    scene.setTransform(new Transform());
+    scene.render(new GraphNode().getTransformation());
+    scene.setTransform(new Transform({position: [10,10,0]}));
+    scene.render(new GraphNode().getTransformation());
+    scene.render(new GraphNode().getTransformation());
+
+</script>
+
+</body>
+</html>
