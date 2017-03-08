@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event queue - game design pattern</title>
+    <script src="js/Audio.js"></script>
+</head>
+<body>
+
+<script>
+
+    var audio  = new Audio();
+    audio.playSound(0,0.5);
+    audio.playSound(0,0.7); //plays the same sound twice is not queued. only update the volume
+    audio.playSound(1,1);
+    audio.playSound(2,1); //not queued (so not played)
+
+    setTimeout(audio.update, 1000); //plays 2 sounds
+    setTimeout(function () {audio.playSound(2,0.5);}, 1200);
+    setTimeout(audio.update, 2000); //plays nothing
+
+</script>
+
+</body>
+</html>
