@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spatial Partition - game design pattern</title>
+    <script src="js/Unit.js"></script>
+    <script src="js/Grid.js"></script>
+</head>
+<body>
+
+    <script>
+        var grid = new Grid(10, 20, function (a, b) {
+            return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2)) <= 2;
+        });
+
+        new Unit(grid, 0,0, 'Max');
+        new Unit(grid, 0,0, 'Miguel');
+        var paolo = new Unit(grid, 1,0, 'Paolo');
+
+        new Unit(grid, 1,2, 'David');
+        new Unit(grid, 1,10, ' Alejandro');
+        new Unit(grid, 21,0, 'Pawel');
+
+        grid.handleMelee();
+
+        console.log('------------- PAOLO MOVES NEAR TO PAWEL');
+        paolo.move(21,1);
+        grid.handleMelee();
+
+
+    </script>
+
+</body>
+</html>
